@@ -1,0 +1,277 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PLS-SEM Research Analysis</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lora:wght@400;600&family=Inter:wght@400;500&display=swap">
+  <style>
+    /* Layout: centered single column, three analysis cards */
+    :root {
+      --bg: #f7f6f4;
+      --surface: #ffffff;
+      --border: #e3e0da;
+      --fg: #1a1814;
+      --fg-muted: #6b6560;
+      --accent: #1e3a5f;
+      --accent-soft: #e8edf3;
+      --accent-hover: #162d4a;
+      --radius: 10px;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root:not([data-theme="light"]) {
+        --bg: #141210;
+        --surface: #1e1c19;
+        --border: #2e2b26;
+        --fg: #f0ede8;
+        --fg-muted: #9a9087;
+        --accent: #6a9fd8;
+        --accent-soft: #1a2a3a;
+        --accent-hover: #85b4e8;
+        color-scheme: dark;
+      }
+    }
+    :root[data-theme="dark"] {
+      --bg: #141210;
+      --surface: #1e1c19;
+      --border: #2e2b26;
+      --fg: #f0ede8;
+      --fg-muted: #9a9087;
+      --accent: #6a9fd8;
+      --accent-soft: #1a2a3a;
+      --accent-hover: #85b4e8;
+      color-scheme: dark;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: var(--bg);
+      color: var(--fg);
+      font-family: 'Inter', system-ui, sans-serif;
+      font-size: 15px;
+      line-height: 1.6;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      padding-left: max(16px, env(safe-area-inset-left, 0px));
+      padding-right: max(16px, env(safe-area-inset-right, 0px));
+      padding-block: 0;
+    }
+
+    main {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding-block: 64px 48px;
+    }
+
+    .header {
+      text-align: center;
+      margin-bottom: 56px;
+      max-width: 560px;
+    }
+
+    .eyebrow {
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 16px;
+    }
+
+    h1 {
+      font-family: 'Lora', Georgia, serif;
+      font-size: clamp(1.6rem, 4vw, 2.2rem);
+      font-weight: 600;
+      line-height: 1.25;
+      text-wrap: balance;
+      color: var(--fg);
+      margin-bottom: 14px;
+    }
+
+    .subtitle {
+      color: var(--fg-muted);
+      font-size: 14px;
+      line-height: 1.7;
+      max-width: 420px;
+      margin: 0 auto;
+    }
+
+    .divider {
+      width: 40px;
+      height: 2px;
+      background: var(--accent);
+      opacity: 0.4;
+      margin: 20px auto 0;
+    }
+
+    .cards {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      width: 100%;
+      max-width: 580px;
+    }
+
+    .card {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 22px 24px;
+      text-decoration: none;
+      color: inherit;
+      transition: border-color 0.18s, box-shadow 0.18s, transform 0.18s;
+    }
+
+    .card:hover {
+      border-color: var(--accent);
+      box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+      transform: translateY(-1px);
+    }
+
+    .card:focus-visible {
+      outline: 2px solid var(--accent);
+      outline-offset: 2px;
+    }
+
+    .card-icon {
+      flex-shrink: 0;
+      width: 44px;
+      height: 44px;
+      border-radius: 8px;
+      background: var(--accent-soft);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .card-icon svg {
+      width: 22px;
+      height: 22px;
+      stroke: var(--accent);
+      fill: none;
+      stroke-width: 1.8;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .card-body {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .card-label {
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--fg-muted);
+      margin-bottom: 4px;
+    }
+
+    .card-title {
+      font-family: 'Lora', Georgia, serif;
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--fg);
+      margin-bottom: 4px;
+    }
+
+    .card-desc {
+      font-size: 13px;
+      color: var(--fg-muted);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .card-arrow {
+      flex-shrink: 0;
+      color: var(--fg-muted);
+      opacity: 0.5;
+      transition: opacity 0.18s, transform 0.18s;
+    }
+
+    .card:hover .card-arrow {
+      opacity: 1;
+      transform: translateX(3px);
+      color: var(--accent);
+    }
+
+    footer {
+      text-align: center;
+      padding-block: 32px;
+      font-size: 12px;
+      color: var(--fg-muted);
+      opacity: 0.7;
+    }
+
+    @media (max-width: 480px) {
+      .card-desc { display: none; }
+      .card { padding: 18px 20px; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .card { transition: none; }
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <div class="header">
+      <p class="eyebrow">MBA Thesis · SmartPLS 4</p>
+      <h1>PLS-SEM Research Analysis</h1>
+      <p class="subtitle">Interactive statistical reports for the structural equation modelling analysis, robustness checks, and predictive validation.</p>
+      <div class="divider"></div>
+    </div>
+
+    <div class="cards">
+      <a class="card" href="Final_Thesis_PLS_SEM.html">
+        <div class="card-icon">
+          <svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+        </div>
+        <div class="card-body">
+          <p class="card-label">Report 1</p>
+          <p class="card-title">Main PLS-SEM Analysis</p>
+          <p class="card-desc">Structural model, path coefficients, and hypothesis testing</p>
+        </div>
+        <svg class="card-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+      </a>
+
+      <a class="card" href="Final_Thesis_PLS_SEM_Robustness_final.html">
+        <div class="card-icon">
+          <svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        </div>
+        <div class="card-body">
+          <p class="card-label">Report 2</p>
+          <p class="card-title">Robustness Analysis</p>
+          <p class="card-desc">Sensitivity checks, bootstrapping, and model validity tests</p>
+        </div>
+        <svg class="card-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+      </a>
+
+      <a class="card" href="Final_Thesis_PLS_SEM_plsPredict.html">
+        <div class="card-icon">
+          <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+        </div>
+        <div class="card-body">
+          <p class="card-label">Report 3</p>
+          <p class="card-title">PLSPredict Analysis</p>
+          <p class="card-desc">Out-of-sample predictive power and Q² relevance values</p>
+        </div>
+        <svg class="card-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+      </a>
+    </div>
+  </main>
+
+  <footer>Susith Rupasinghe · MBA Thesis Research</footer>
+</body>
+</html>
